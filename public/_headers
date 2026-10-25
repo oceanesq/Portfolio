@@ -1,0 +1,27 @@
+# En-têtes HTTP — format commun Netlify et Cloudflare Pages.
+# Si la mesure d'audience utilise un autre domaine que plausible.io (ex. Umami auto-hébergé),
+# remplacer https://plausible.io dans script-src et connect-src.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://plausible.io; connect-src 'self' https://plausible.io; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-Robots-Tag: noai, noimageai
+  tdm-reservation: 1
+
+# Les pages HTML gardent le cache par défaut de l'hébergeur (revalidées à chaque visite).
+# Fichiers aux noms hachés : mis en cache un an, jamais revalidés.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+/photos/*
+  Cache-Control: public, max-age=31536000, immutable
+/og/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/.well-known/tdmrep.json
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *

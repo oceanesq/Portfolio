@@ -1,0 +1,80 @@
+{
+  "ordre": 2,
+  "slug_fr": "sport",
+  "slug_en": "sport",
+  "nom_fr": "Sport",
+  "nom_en": "Sport",
+  "intro_fr": "L'effort, l'élan, et tout ce qui se joue entre les athlètes : dépassement de soi et entraide.",
+  "intro_en": "Effort, momentum and everything that happens between athletes: pushing limits and helping each other.",
+  "ambiance": "sport",
+  "cadre": "alu",
+  "photos": [
+    {
+      "fichier": "DSC_2637.jpg",
+      "titre_fr": "Dans l'ombre",
+      "titre_en": "In the dark",
+      "texte_fr": "On voit souvent des photos de sportifs pendant des compétitions, ici cette photo met en avant l'entrainement intensif que personne ne voit mais qui est nécessaire pour performer en compétitions.",
+      "texte_en": "We often see photos of athletes during competitions; this image, however, highlights the intensive training that goes unseen, yet is essential for performing well in competition.",
+      "lieu": "Céret, France",
+      "annee": 2026,
+      "alt_fr": "Un traileur de dos, l'image et sombre pour dégager la difficulté et l'effort du sportif.",
+      "alt_en": "A trail runner, seen from behind; the image is dark, conveying the difficulty and the effort involved for the athlete.",
+      "vedette": true
+    },
+    {
+      "fichier": "A7_06393.jpg",
+      "titre_fr": "Envol",
+      "titre_en": "Take-off",
+      "texte_fr": "Spectacle de gymnastique 2026.",
+      "texte_en": "Gymnastic Gala 2026.",
+      "lieu": "Céret, France",
+      "annee": 2026,
+      "alt_fr": "Un homme fait un salto vrille.",
+      "alt_en": "A man performs a twisting somersault."
+    },
+    {
+      "fichier": "DSC_2610.jpg",
+      "titre_fr": "La beauté du trail",
+      "titre_en": "The trail's beauty",
+      "texte_fr": "Cette photo à pour objectif de mettre en avant la nature et la chance qu'on peut avoir de s'y entrainer.",
+      "texte_en": "The purpose of this photo is to highlight nature and the good fortune of being able to train within it.",
+      "lieu": "Céret, France",
+      "annee": 2026,
+      "alt_fr": "La photo est prise dans la montagne, au milieu des arbres. Au deuxieme plan, presque caché, on remarque un traileur s'entrainer durement.",
+      "alt_en": "The photo is taken in the mountains, amidst the trees. In the background, partially hidden, a trail runner can be seen training hard."
+    },
+    {
+      "fichier": "A7_08013.jpg",
+      "titre_fr": "Ligne d'arrivée",
+      "titre_en": "Finish line",
+      "texte_fr": "Ce couple m'a beaucoup émue.",
+      "texte_en": "Demo text. Before the start, focus.",
+      "lieu": "Lieu à préciser",
+      "annee": 2025,
+      "alt_fr": "Image de démonstration : bandes horizontales et courbes.",
+      "alt_en": "Demo image: horizontal bands and curves."
+    },
+    {
+      "fichier": "A7_02959.JPEG",
+      "titre_fr": "Échauffement",
+      "titre_en": "Warm-up",
+      "texte_fr": "Texte de démonstration. Avant le départ, la concentration.",
+      "texte_en": "Demo text. Before the start, focus.",
+      "lieu": "Lieu à préciser",
+      "annee": 2025,
+      "alt_fr": "Image de démonstration : bandes horizontales et courbes.",
+      "alt_en": "Demo image: horizontal bands and curves."
+    },
+    {
+      "fichier": "A7_08037.JPEG",
+      "titre_fr": "Ligne d'arrivée",
+      "titre_en": "Finish line",
+      "texte_fr": "Texte de démonstration. Un format carré.",
+      "texte_en": "Demo text. A square format.",
+      "lieu": "Lieu à préciser",
+      "annee": 2024,
+      "alt_fr": "Image de démonstration carrée : traînées colorées.",
+      "alt_en": "Square demo image: colourful streaks."
+    }
+  ]
+}

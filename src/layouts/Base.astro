@@ -1,0 +1,99 @@
+---
+/**
+ * Mise en page commune : <head> (SEO, hreflang, Open Graph, réserve TDM/IA),
+ * en-tête, contenu, pied de page, bandeau de consentement.
+ */
+import '../styles/global.css';
+import jostUrl from '../assets/fonts/jost-var.woff2?url';
+import cormorantUrl from '../assets/fonts/cormorant-garamond-var.woff2?url';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
+import { site } from '../config/site';
+import { ogImages, type Theme } from '../lib/gallery';
+import { useTranslations, otherLang, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Titre de la page (le nom du site est ajouté automatiquement). */
+  title?: string;
+  description?: string;
+  /** Chemins de la page dans chaque langue, ex. { fr: '/fr/paysages/', en: '/en/landscapes/' } */
+  alternates: Record<Lang, string>;
+  /** Clé de l'image Open Graph (id de salle) ou chemin absolu. */
+  og?: string;
+  theme?: Theme;
+  /** Classe ajoutée sur <body> (ex. 'is-room'). */
+  bodyClass?: string;
+  noindex?: boolean;
+}
+
+const { lang, title, description, alternates, og, theme = 'light', bodyClass, noindex = false } = Astro.props;
+const t = useTranslations(lang);
+// Couleur de la barre du navigateur mobile, assortie au mur de chaque ambiance.
+const themeColor: Record<Theme, string> = { light: '#efebe5', dark: '#232426', sport: '#e2e7eb', nature: '#2f3b35' };
+const pageTitle = title ? `${title} — ${t('site.title')}` : t('site.title');
+const desc = description ?? t('site.description');
+const abs = (p: string) => new URL(p, site.url).href;
+const canonical = abs(alternates[lang]);
+const ogPath = og?.startsWith('/') ? og : (ogImages[og ?? 'default'] ?? ogImages.default);
+const other = otherLang(lang);
+---
+
+<!doctype html>
+<html lang={lang} data-theme={theme}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={desc} />
+    <meta name="author" content={site.author} />
+    <meta name="theme-color" content={themeColor[theme]} />
+
+    <!-- Réserve de droits : pas d'indexation par des IA ni de fouille de données (TDM). -->
+    <meta name="robots" content={noindex ? 'noindex, noai, noimageai' : 'noai, noimageai'} />
+    <meta name="tdm-reservation" content="1" />
+    <meta name="copyright" content={`© ${site.author}`} />
+
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="fr" href={abs(alternates.fr)} />
+    <link rel="alternate" hreflang="en" href={abs(alternates.en)} />
+    <link rel="alternate" hreflang="x-default" href={abs(alternates.fr)} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap.xml" />
+
+    <!-- Polices auto-hébergées, préchargées (aucune requête vers Google Fonts). -->
+    <link rel="preload" href={jostUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={cormorantUrl} as="font" type="font/woff2" crossorigin />
+
+    <!-- Open Graph / réseaux sociaux (image basse définition avec filigrane) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t('site.title')} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_FR' : 'en_GB'} />
+    <meta property="og:locale:alternate" content={other === 'fr' ? 'fr_FR' : 'en_GB'} />
+    {ogPath && <meta property="og:image" content={abs(ogPath)} />}
+    {ogPath && <meta property="og:image:width" content="1200" />}
+    {ogPath && <meta property="og:image:height" content="630" />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">{t('skip')}</a>
+    <Header lang={lang} current={alternates[lang]} alternate={alternates[other]} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <ConsentBanner lang={lang} />
+    <script>
+      import '../scripts/protect';
+      import '../scripts/prefetch';
+    </script>
+  </body>
+</html>

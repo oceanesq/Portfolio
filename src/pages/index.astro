@@ -1,0 +1,22 @@
+---
+/**
+ * Racine du site : redirige vers la version française (langue par défaut).
+ * Sur Netlify / Cloudflare Pages, public/_redirects fait la même chose côté serveur (301).
+ */
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Océane Saqué — Photographie</title>
+    <meta http-equiv="refresh" content="0; url=/fr/" />
+    <link rel="canonical" href="/fr/" />
+    <meta name="robots" content="noindex, noai, noimageai" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <p><a href="/fr/">Entrer dans la galerie</a> · <a href="/en/" lang="en">Enter the gallery</a></p>
+  </body>
+</html>

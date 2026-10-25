@@ -1,0 +1,1519 @@
+/* ==========================================================================
+   Océane Saqué — Photographie
+   Feuille de style unique (inline dans chaque page au build).
+   Sommaire :
+     1. Polices auto-hébergées
+     2. Variables (palette, dimensions) et thème sombre
+     3. Base et accessibilité
+     4. En-tête et navigation
+     5. Pied de page
+     6. Salle : mur, sol, parallaxe
+     7. Œuvre : cadre, passe-partout, spot, cartel
+     8. Hall d'entrée et portes
+     9. Pages de texte (à propos, légal) et 404
+    10. Visionneuse (lightbox)
+    11. Bandeau de consentement
+    12. Mobile et préférences utilisateur
+   ========================================================================== */
+
+/* 1. Polices --------------------------------------------------------------- */
+/* Fichiers dans src/assets/fonts (licence SIL OFL), servis avec un nom haché. */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('../assets/fonts/cormorant-garamond-var.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('../assets/fonts/cormorant-garamond-var-italic.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Jost';
+  src: url('../assets/fonts/jost-var.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. Variables ------------------------------------------------------------- */
+:root {
+  /* Palette (contrastes vérifiés AA sur --wall) */
+  --wall: #efebe5;          /* blanc cassé, légèrement grisé hors des spots */
+  --wall-lit: #fcfaf6;      /* mur sous la lumière d'un spot */
+  --wall-shade: #e2ddd5;
+  --ink: #2a2927;           /* anthracite : texte principal */
+  --ink-soft: #5c5751;      /* texte secondaire (contraste ≈ 6:1) */
+  --accent: #8a5a32;        /* unique couleur d'accent : terre de Sienne */
+  --floor: #d8cfc1;         /* parquet clair */
+  --floor-dark: #c9bead;
+  --floor-line: rgba(92, 70, 45, 0.16);
+  --baseboard: #f6f3ee;
+  --mat: #fbfaf7;           /* passe-partout */
+  --plaque: #fdfcfa;        /* cartel */
+  --plaque-ink: #2a2927;
+  --spot-light: rgba(255, 249, 236, 0.9);
+  --spot-cone: rgba(255, 250, 238, 0.55);
+  --fixture: #2d2c2a;
+  --shadow: rgba(40, 32, 22, 0.28);
+  --focus: #8a5a32;
+
+  /* Typographie */
+  --serif: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --sans: 'Jost', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Dimensions de la salle */
+  --header-h: 3.5rem;
+  --room-h: max(30rem, calc(100svh - var(--header-h)));
+  --floor-h: calc(var(--room-h) * 0.14);
+  --ceiling: calc(var(--room-h) * 0.075);
+  /* Hauteur des photos : 60 % de la salle, mais jamais au point de pousser le cartel
+     sous le sol (11,5rem réservés au cadre + cartel de 3 lignes). */
+  --cartel-reserve: 11.5rem;
+  --img-h: clamp(
+    10rem,
+    min(calc(var(--room-h) * 0.6), calc(var(--room-h) - var(--floor-h) - var(--ceiling) - var(--cartel-reserve))),
+    52rem
+  );
+  --img-max-w: min(72rem, 82vw);
+  --frame-w: 0.5rem;
+  /* Passe-partout désactivé : la photo touche le cadre. Pour le remettre :
+     --mat-w: clamp(0.9rem, calc(var(--img-h) * 0.075), 2.6rem); */
+  --mat-w: 0px;
+  --gap: clamp(5rem, 11vw, 12rem);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  color-scheme: light;
+}
+
+/* Salle sombre (Concerts & Festivals) */
+[data-theme='dark'] {
+  --wall: #232426;
+  --wall-lit: #34353a;
+  --wall-shade: #1a1b1d;
+  --ink: #edebe7;
+  --ink-soft: #b9b4ac;      /* contraste ≈ 8:1 sur --wall */
+  --accent: #e0a86c;
+  --floor: #141414;
+  --floor-dark: #0d0d0d;
+  --floor-line: rgba(255, 255, 255, 0.05);
+  --baseboard: #1c1c1e;
+  --mat: #ece8e1;
+  --plaque: #1a1a1c;
+  --plaque-ink: #edebe7;
+  --spot-light: rgba(255, 236, 205, 0.22);
+  --spot-cone: rgba(255, 238, 210, 0.2);
+  --fixture: #0b0b0c;
+  --shadow: rgba(0, 0, 0, 0.6);
+  --focus: #e0a86c;
+  color-scheme: dark;
+}
+
+/* Salle Sport : béton clair d'un gymnase, sol de piste d'athlétisme,
+   lumière plus froide (LED) et bandeau de couleur sur le mur. */
+[data-theme='sport'] {
+  --wall: #e2e7eb;
+  --wall-lit: #f7f9fa;
+  --wall-shade: #cfd6dc;
+  --ink: #1d2833;           /* bleu marine */
+  --ink-soft: #46535f;      /* contraste ≈ 6,5:1 sur --wall */
+  --accent: #a43e1c;        /* orange brique de la piste */
+  --floor: #bb5c3e;         /* revêtement de piste */
+  --floor-dark: #9b4931;
+  --floor-line: rgba(255, 255, 255, 0.6);
+  --baseboard: #1d2833;
+  --plaque: #ffffff;
+  --plaque-ink: #1d2833;
+  --spot-light: rgba(255, 255, 255, 0.95);
+  --spot-cone: rgba(240, 247, 255, 0.6);
+  --fixture: #1d2833;
+  --shadow: rgba(20, 32, 44, 0.3);
+  --focus: #a43e1c;
+}
+/* Couloirs de la piste : lignes blanches parallèles au mur */
+[data-theme='sport'] .floor__plane {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 3.4rem,
+    var(--floor-line) 3.4rem 3.6rem
+  );
+}
+/* Bandeau orange et marine le long du mur, comme dans une salle de sport */
+[data-theme='sport'] .room::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--floor-h);
+  z-index: 0;
+  height: 0.45rem;
+  background: linear-gradient(to bottom, var(--accent) 0 55%, transparent 55% 72%, var(--ink) 72%);
+  opacity: 0.85;
+}
+/* Contrôles posés sur la piste : texte blanc pour rester lisible (contraste AA) */
+[data-theme='sport'] .wall-controls {
+  color: #fff;
+}
+[data-theme='sport'] .wall-controls button {
+  background: rgba(29, 40, 51, 0.22);
+}
+
+/* Salle Paysages & Voyages : le sentier de randonnée.
+   Mur vert forêt couvert de courbes de niveau (carte IGN), sol en caillebotis
+   de bois (passerelle de rando) et balisage GR blanc-rouge peint sur le mur.
+   Le fond sombre fait ressortir les ciels et les couleurs des paysages. */
+[data-theme='nature'] {
+  --wall: #2f3b35;
+  --wall-lit: #3f4d45;
+  --wall-shade: #25302a;
+  --ink: #eef0ea;
+  --ink-soft: #b7c1b9;      /* contraste ≈ 7:1 sur --wall */
+  --accent: #eba584;
+  --floor: #6e5640;         /* bois du caillebotis */
+  --floor-dark: #4f3e2f;
+  --floor-line: rgba(20, 14, 8, 0.55);
+  --baseboard: #222b26;
+  --plaque: #f3efe6;        /* cartels crème, comme dans un musée */
+  --plaque-ink: #26302b;
+  --spot-light: rgba(255, 240, 212, 0.24);
+  --spot-cone: rgba(255, 242, 215, 0.22);
+  --fixture: #151a17;
+  --shadow: rgba(0, 0, 0, 0.55);
+  --focus: #eba584;
+  --gr-white: #f4f2ec;
+  --gr-red: #c8402e;
+  color-scheme: dark;
+}
+/* Courbes de niveau peintes sur le mur : elles défilent avec les œuvres,
+   et s'arrêtent à la plinthe. */
+[data-theme='nature'] .wall__track {
+  position: relative;
+}
+[data-theme='nature'] .wall__track::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 var(--floor-h);
+  z-index: -1;
+  background: url('../assets/topo.svg') 0 0 / 45rem 32.5rem repeat;
+  pointer-events: none;
+}
+/* Caillebotis : larges lames en travers du sentier, joints sombres, une lame sur deux plus claire */
+[data-theme='nature'] .floor__plane {
+  background:
+    repeating-linear-gradient(to right, var(--floor-line) 0 3px, transparent 3px 3.5rem),
+    repeating-linear-gradient(to right, rgba(255, 236, 205, 0.05) 0 3.5rem, transparent 3.5rem 7rem);
+}
+/* Balisage GR (trait blanc au-dessus d'un trait rouge) */
+[data-theme='nature'] .room-intro .eyebrow::before,
+[data-theme='nature'] .room-exit .door__label::before {
+  content: '';
+  display: inline-block;
+  width: 1.7rem;
+  height: 0.85rem;
+  margin-right: 0.8rem;
+  vertical-align: -0.1rem;
+  background: linear-gradient(to bottom, var(--gr-white) 0 42%, transparent 42% 58%, var(--gr-red) 58%);
+  border-radius: 1px;
+}
+[data-theme='nature'] .wall-controls button {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+/* 3. Base ------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--wall);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 350;
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 1.15;
+  margin: 0;
+}
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+a:hover {
+  color: var(--accent);
+}
+img {
+  max-width: 100%;
+}
+button {
+  font: inherit;
+  color: inherit;
+}
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--ink);
+  color: var(--wall);
+  text-decoration: none;
+  transition: transform 0.2s var(--ease);
+}
+.skip-link:focus {
+  transform: translateY(5rem);
+}
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Bouton discret (contrôles, bandeau) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1.2rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+.btn:hover {
+  background: var(--ink);
+  color: var(--wall);
+}
+
+/* Transitions entre pages (View Transitions natives, sans JS) */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease);
+}
+::view-transition-old(root) {
+  animation-name: vt-out;
+}
+::view-transition-new(root) {
+  animation-name: vt-in;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateX(-2%);
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateX(2%);
+  }
+}
+
+/* 4. En-tête --------------------------------------------------------------- */
+.site-header {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: var(--header-h);
+  padding: 0 clamp(1rem, 3vw, 2.5rem);
+  background: var(--wall);
+}
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.wordmark__name {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.wordmark__suffix {
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.wordmark__suffix::before {
+  content: '— ';
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.8rem, 2vw, 1.8rem);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+}
+.nav__list {
+  /* Sur grand écran, la liste (attribut popover) est affichée en ligne. */
+  position: static;
+  display: flex;
+  gap: clamp(0.8rem, 2vw, 1.8rem);
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: none;
+  color: inherit;
+  list-style: none;
+}
+.nav a {
+  text-decoration: none;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid transparent;
+}
+.nav a[aria-current='page'] {
+  border-bottom-color: currentColor;
+}
+.nav__lang {
+  padding: 0.3rem 0.55rem !important;
+  border: 1px solid var(--ink-soft) !important;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+}
+/* Menu repliable (mobile uniquement) */
+.nav__toggle {
+  display: none;
+}
+
+/* 5. Pied de page ---------------------------------------------------------- */
+.site-footer {
+  padding: 2rem clamp(1rem, 3vw, 2.5rem) 2.5rem;
+  background: var(--wall-shade);
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+  line-height: 1.7;
+}
+.site-footer p {
+  margin: 0 0 0.6rem;
+}
+.site-footer strong {
+  color: var(--ink);
+  font-weight: 450;
+}
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.4rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.footer__links a,
+.footer__links button {
+  display: inline-block;
+  padding: 0.35rem 0;
+  border: 0;
+  background: none;
+  font-size: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  cursor: pointer;
+}
+.footer__links a:hover,
+.footer__links button:hover {
+  text-decoration-color: currentColor;
+  color: var(--ink);
+}
+
+/* 6. Salle : mur, sol, parallaxe ------------------------------------------ */
+.room {
+  position: relative;
+  height: var(--room-h);
+  overflow: hidden;
+  isolation: isolate;
+  /* Lumière douce venant du plafond + léger grain du mur */
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05), transparent 18%),
+    var(--wall);
+}
+.room::before {
+  /* Corniche : fine ligne d'ombre au plafond */
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: var(--wall-shade);
+  z-index: 1;
+}
+/* Sol : couche fixe, animée en translateX par wall.ts (parallaxe) */
+.floor {
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--floor-h);
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 22rem;
+  perspective-origin: 50% -40%;
+  background: linear-gradient(to bottom, var(--floor-dark), var(--floor));
+}
+.floor__baseboard {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 0.7rem;
+  z-index: 2;
+  background: var(--baseboard);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -2px var(--shadow);
+}
+.floor__plane {
+  /* Plan du parquet incliné : les lames convergent vers l'horizon */
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 300%;
+  transform-origin: 50% 0;
+  transform: rotateX(62deg) translate3d(var(--floor-x, 0px), 0, 0);
+  background:
+    repeating-linear-gradient(to right, var(--floor-line) 0 1px, transparent 1px 7rem),
+    repeating-linear-gradient(to bottom, transparent 0 11rem, var(--floor-line) 11rem calc(11rem + 1px));
+  will-change: transform;
+}
+.floor__pools {
+  /* Reflets des spots au sol (positionnés par wall.ts) */
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transform: translate3d(var(--pools-x, 0px), 0, 0);
+  will-change: transform;
+}
+.floor__pool {
+  position: absolute;
+  top: 0.4rem;
+  width: 26rem;
+  height: 70%;
+  margin-left: -13rem;
+  background: radial-gradient(50% 50% at 50% 0%, var(--spot-cone), transparent 70%);
+  opacity: 0.7;
+}
+
+/* Le mur défilant (défilement natif = fluidité maximale et tactile garanti) */
+.wall {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  outline-offset: -4px;
+}
+.wall::-webkit-scrollbar {
+  display: none;
+}
+.wall.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+.wall__track {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--gap);
+  width: max-content;
+  height: 100%;
+  padding-inline: clamp(1.5rem, 8vw, 9rem);
+}
+
+/* Panneau d'introduction peint sur le mur */
+.room-intro {
+  flex: 0 0 auto;
+  align-self: center;
+  width: min(24rem, 78vw);
+  margin-bottom: var(--floor-h);
+}
+.room-intro h1 {
+  margin: 0.6rem 0 1rem;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  font-weight: 400;
+}
+.room-intro p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+}
+.room-intro__hint {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 2rem !important;
+  font-size: 0.74rem !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.room-intro__hint::after {
+  content: '';
+  width: 3rem;
+  height: 1px;
+  background: currentColor;
+  animation: hint 2.4s var(--ease) infinite;
+  transform-origin: left;
+}
+@keyframes hint {
+  0%,
+  100% {
+    transform: scaleX(0.4);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* Contrôles précédent / suivant */
+.wall-controls {
+  position: absolute;
+  z-index: 3;
+  right: clamp(1rem, 3vw, 2.5rem);
+  bottom: calc(var(--floor-h) * 0.5);
+  transform: translateY(50%);
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: var(--ink);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+}
+.wall-controls button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--wall) 55%, transparent);
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.2s, transform 0.2s var(--ease);
+}
+.wall-controls button:hover {
+  opacity: 1;
+}
+.wall-controls button:active {
+  transform: scale(0.94);
+}
+.wall-controls button[disabled] {
+  opacity: 0.25;
+  cursor: default;
+}
+.wall-controls svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 7. Œuvre ----------------------------------------------------------------- */
+.work {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: var(--ceiling);
+}
+.work__lit {
+  position: relative;
+}
+/* Spot : boîtier au plafond, cône de lumière et halo sur le mur */
+.spot {
+  position: absolute;
+  top: calc(-1 * var(--ceiling));
+  bottom: -18%;
+  left: -38%;
+  right: -38%;
+  z-index: -1;
+  pointer-events: none;
+}
+.spot::before {
+  /* boîtier */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2.1rem;
+  height: 0.9rem;
+  margin-left: -1.05rem;
+  border-radius: 0 0 0.9rem 0.9rem;
+  background: var(--fixture);
+  box-shadow: 0 0.35rem 0.6rem -0.2rem rgba(255, 244, 220, 0.5);
+}
+.spot__cone {
+  position: absolute;
+  inset: 0.8rem 0 0;
+  background: linear-gradient(to bottom, var(--spot-cone), transparent 78%);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  opacity: 0.55;
+}
+.spot__glow {
+  position: absolute;
+  inset: 8% 4% 0;
+  background: radial-gradient(52% 46% at 50% 42%, var(--spot-light), transparent 72%);
+}
+
+/* Cadre et passe-partout */
+.frame {
+  --frame-color: #1d1c1b;
+  position: relative;
+  display: block;
+  padding: var(--frame-w);
+  border: 0;
+  background: var(--frame-color);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    0 1.6rem 2.4rem -1.2rem var(--shadow),
+    0 0.3rem 0.6rem -0.2rem var(--shadow);
+  cursor: zoom-in;
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+.frame--chene {
+  --frame-color: #c8a777;
+  background: linear-gradient(135deg, #d8bc92 0%, #c19c69 35%, #d4b588 60%, #b89062 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(90, 60, 30, 0.25),
+    0 1.6rem 2.4rem -1.2rem var(--shadow),
+    0 0.3rem 0.6rem -0.2rem var(--shadow);
+}
+.frame--blanc {
+  background: #f7f5f0;
+}
+/* Aluminium brossé : cadre moderne et technique, assorti à la salle Sport */
+.frame--alu {
+  background: linear-gradient(135deg, #eef1f3 0%, #b7bfc6 28%, #f5f7f8 52%, #a3acb4 78%, #d9dee2 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(40, 52, 64, 0.35),
+    0 1.6rem 2.4rem -1.2rem var(--shadow),
+    0 0.3rem 0.6rem -0.2rem var(--shadow);
+}
+.frame:hover {
+  transform: translateY(-2px);
+}
+.frame__mat {
+  display: block;
+  padding: var(--mat-w);
+  background: var(--mat);
+}
+.frame__img {
+  display: block;
+  position: relative;
+  background-color: var(--c, #ccc);
+  background-size: cover;
+}
+.frame__img img {
+  display: block;
+  width: min(calc(var(--img-h) * var(--r, 1.5)), var(--img-max-w));
+  height: auto;
+  /* Protection légère : pas de sélection ni de glisser-déposer (cf. protect.ts) */
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.frame__missing {
+  display: grid;
+  place-items: center;
+  width: calc(var(--img-h) * 1.5);
+  height: var(--img-h);
+  max-width: var(--img-max-w);
+  color: #8b857c;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: repeating-linear-gradient(45deg, #ebe7e0 0 10px, #e4dfd7 10px 20px);
+}
+
+/* Cartel façon musée */
+.cartel {
+  width: min(18rem, 78vw);
+  margin-top: 1.1rem;
+  padding: 0.85rem 1rem 0.8rem;
+  background: var(--plaque);
+  color: var(--plaque-ink);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 4px 10px -6px var(--shadow);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.cartel__title {
+  margin: 0 0 0.35rem;
+  font-family: var(--serif);
+  font-size: 1.12rem;
+  font-style: italic;
+  font-weight: 500;
+}
+.cartel__text {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cartel__meta {
+  margin: 0.55rem 0 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+
+/* Sortie de salle : porte vers la suivante */
+.room-exit {
+  flex: 0 0 auto;
+  align-self: flex-end;
+  display: flex;
+  align-items: flex-end;
+  gap: 3rem;
+  margin-bottom: calc(var(--floor-h) - 0.05rem);
+  padding-right: 2rem;
+}
+.room-exit__back {
+  margin-bottom: 2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+/* 8. Hall et portes -------------------------------------------------------- */
+.hall {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip; /* le halo des spots ne doit pas élargir la page sur mobile */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05), transparent 12rem), var(--wall);
+}
+.hall__intro {
+  padding: clamp(1.5rem, 5vh, 3.5rem) 1.5rem 0;
+  text-align: center;
+}
+.hall__intro h1 {
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.hall__intro p {
+  max-width: 34rem;
+  margin: 0.8rem auto 0;
+  color: var(--ink-soft);
+}
+.hall__works {
+  --img-h: clamp(11rem, calc(var(--room-h) * 0.5), 42rem);
+  --ceiling: clamp(3rem, 8vh, 5rem);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding: clamp(1.5rem, 4vh, 2.5rem) 1.5rem 3rem;
+}
+/* Les œuvres secondaires du hall n'apparaissent que sur grand écran. */
+@media (max-width: 72rem) {
+  .hall__works .work:not(:first-child) {
+    display: none;
+  }
+}
+.hall__works .work:not(:first-child) {
+  --img-h: clamp(9rem, calc(var(--room-h) * 0.37), 30rem);
+}
+.hall__works .work:first-child {
+  order: 2;
+}
+.hall__works .work:nth-child(2) {
+  order: 1;
+}
+.hall__works .work:nth-child(3) {
+  order: 3;
+}
+.hall__rooms {
+  position: relative;
+  padding: 2.5rem 1.5rem 0;
+  text-align: center;
+}
+.hall__rooms h2 {
+  margin-bottom: 2.5rem;
+  font-size: 0.75rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.doors {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(1.5rem, 6vw, 6rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hall__floor {
+  position: relative;
+  height: clamp(4rem, 12vh, 7rem);
+}
+.hall__floor .floor {
+  height: 100%;
+}
+
+/* Porte : un passage ouvert qui laisse entrevoir la salle */
+.door {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  text-decoration: none;
+  color: var(--ink);
+}
+.door__label {
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  font-weight: 500;
+}
+.door__count {
+  margin-top: -0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.door__opening {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(8.5rem, 15vw, 13rem);
+  aspect-ratio: 0.58;
+  overflow: hidden;
+  /* chambranle */
+  border: 0.55rem solid var(--wall-shade);
+  border-bottom: 0;
+  box-shadow: inset 0 0.8rem 1.4rem -0.6rem rgba(0, 0, 0, 0.35), inset 0.6rem 0 1rem -0.8rem rgba(0, 0, 0, 0.3);
+}
+.door__room {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding-bottom: 18%;
+  background:
+    radial-gradient(60% 40% at 50% 35%, rgba(255, 250, 238, 0.85), transparent 70%),
+    linear-gradient(to bottom, #e9e4dc 0 76%, #cfc5b6 76%);
+  transition: transform 0.7s var(--ease);
+}
+.door--dark .door__room {
+  background:
+    radial-gradient(60% 40% at 50% 35%, rgba(255, 236, 205, 0.22), transparent 70%),
+    linear-gradient(to bottom, #26272a 0 76%, #111 76%);
+}
+.door--sport .door__room {
+  background:
+    radial-gradient(60% 40% at 50% 35%, rgba(255, 255, 255, 0.9), transparent 70%),
+    linear-gradient(to bottom, #e2e7eb 0 66%, #a43e1c 66% 67.5%, #e2e7eb 67.5% 76%, #bb5c3e 76%);
+}
+.door--nature .door__room {
+  background:
+    radial-gradient(60% 40% at 50% 35%, rgba(255, 240, 212, 0.28), transparent 70%),
+    url('../assets/topo.svg') 0 0 / 22rem auto no-repeat,
+    linear-gradient(to bottom, #2f3b35 0 76%, #6e5640 76%);
+}
+.door__mini {
+  width: 58%;
+  border: 3px solid #1d1c1b;
+  box-shadow: 0 6px 10px -6px rgba(0, 0, 0, 0.5);
+}
+.door--chene .door__mini {
+  border-color: #c19c69;
+}
+.door--alu .door__mini {
+  border-color: #b7bfc6;
+}
+.door__mini img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.door:hover .door__room,
+.door:focus-visible .door__room {
+  transform: scale(1.06);
+}
+.door:hover {
+  color: var(--accent);
+}
+
+/* 9. Pages de texte -------------------------------------------------------- */
+.page {
+  min-height: calc(100svh - var(--header-h));
+  padding: clamp(2rem, 7vh, 5rem) clamp(1.25rem, 5vw, 3rem) 5rem;
+  overflow-x: clip; /* le halo des spots ne doit pas élargir la page sur mobile */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.04), transparent 10rem), var(--wall);
+}
+.prose {
+  max-width: 42rem;
+  margin: 0 auto;
+}
+.prose h1 {
+  margin-bottom: 2rem;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 400;
+}
+.prose h2 {
+  margin: 2.6rem 0 0.8rem;
+  font-size: 1.6rem;
+}
+.prose h3 {
+  margin: 1.8rem 0 0.5rem;
+  font-size: 1.25rem;
+}
+.prose p,
+.prose li {
+  color: var(--ink);
+}
+.prose ul {
+  padding-left: 1.2rem;
+}
+.prose a {
+  color: var(--accent);
+}
+.prose mark {
+  /* repère visuel des champs [À COMPLÉTER] */
+  background: #f7e3b5;
+  color: #3b2a12;
+  padding: 0 0.2em;
+}
+.prose hr {
+  margin: 3rem 0;
+  border: 0;
+  border-top: 1px solid var(--wall-shade);
+}
+
+/* À propos : grille 2 × 2
+   ┌──────────┬──────────────────────┐
+   │ portrait │ texte + e-mail       │
+   ├──────────┼──────────────────────┤
+   │ matériel │ illustration / photo │
+   └──────────┴──────────────────────┘ */
+.about {
+  display: grid;
+  grid-template-columns: auto minmax(0, 38rem);
+  grid-template-areas:
+    'portrait text'
+    'gear figure';
+  gap: 3rem clamp(2rem, 6vw, 6rem);
+  justify-content: center;
+  align-items: start;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+.about > .work {
+  grid-area: portrait;
+  --img-h: clamp(16rem, 62vh, 36rem);
+  --ceiling: 3.5rem;
+}
+.about .frame__missing {
+  width: calc(var(--img-h) * 0.72); /* emplacement du portrait : format vertical */
+}
+.about > .prose {
+  grid-area: text;
+  margin: 0;
+  padding-top: 3.5rem;
+}
+.about__mail {
+  margin-top: 2rem;
+}
+.about__gear {
+  grid-area: gear;
+  align-self: center;
+  padding: 1.3rem 1.4rem 1.2rem;
+  background: var(--plaque);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 4px 10px -6px var(--shadow);
+}
+.about__gear h2 {
+  margin: 0 0 0.9rem;
+  font-size: 1.5rem;
+}
+.about__gear dl {
+  margin: 0;
+}
+.about__gear dt {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.about__gear dd {
+  margin: 0.1rem 0 0.8rem;
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+.about__gear dd:last-child {
+  margin-bottom: 0;
+}
+.about__figure {
+  grid-area: figure;
+  align-self: center;
+  margin: 0;
+}
+.about__figure .work {
+  --img-h: clamp(12rem, 34vh, 22rem);
+  --ceiling: 2.5rem;
+}
+
+/* Illustration du matériel (GearIllustration.astro) */
+.gear-art {
+  display: block;
+  width: 100%;
+  max-width: 34rem;
+  height: auto;
+}
+.gear-art__shadow {
+  fill: var(--shadow);
+  opacity: 0.35;
+}
+.gear-art__body,
+.gear-art__eyecup {
+  fill: #29292b;
+}
+.gear-art__detail,
+.gear-art__shoe {
+  fill: #3b3b3f;
+}
+.gear-art__mount {
+  fill: #8e9298;
+}
+.gear-art__lens {
+  fill: #232325;
+}
+.gear-art__ring {
+  fill: #1b1b1d;
+}
+.gear-art__lip {
+  fill: #2e2e31;
+}
+.gear-art__ridge {
+  stroke: #46464b;
+  stroke-width: 1.4;
+}
+.gear-art__edge {
+  stroke: rgba(255, 255, 255, 0.16);
+  stroke-width: 1.2;
+  fill: none;
+}
+.gear-art__mark {
+  fill: #b9b6b1;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.gear-art__badge {
+  fill: none;
+  stroke: #b9b6b1;
+  stroke-width: 1;
+}
+.gear-art__badge-text {
+  fill: #b9b6b1;
+  font-family: var(--sans);
+  font-size: 7.5px;
+  text-anchor: middle;
+}
+.gear-art__leader {
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+}
+.gear-art__label {
+  fill: var(--ink-soft);
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-anchor: middle;
+}
+
+/* 404 */
+.notfound {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+.notfound .frame {
+  cursor: default;
+}
+.notfound .frame__missing {
+  --img-h: clamp(10rem, 30vh, 18rem);
+  background: var(--mat);
+  border: 1px dashed #c9c2b8;
+}
+.notfound .cartel {
+  text-align: left;
+}
+
+/* 10. Visionneuse ---------------------------------------------------------- */
+.lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgba(14, 14, 15, 0.96);
+  color: #edebe7;
+  overscroll-behavior: contain;
+}
+.lightbox::backdrop {
+  background: rgba(14, 14, 15, 0.6);
+}
+.lightbox[open] {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  animation: lb-in 0.35s var(--ease);
+}
+@keyframes lb-in {
+  from {
+    opacity: 0;
+  }
+}
+.lightbox__stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 3.5rem 4.5rem 0;
+}
+.lightbox__figure {
+  position: relative;
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+}
+.lightbox__figure img {
+  display: block;
+  max-width: min(100%, 2000px);
+  max-height: calc(100dvh - 11rem);
+  width: auto;
+  height: auto;
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.lightbox__figure.is-entering img {
+  animation: lb-img 0.4s var(--ease);
+}
+@keyframes lb-img {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+}
+.lightbox__shield {
+  /* Calque transparent au-dessus de la photo : « Enregistrer l'image » vise le calque. */
+  position: absolute;
+  inset: 0;
+}
+.lightbox__caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.5rem 2rem;
+  padding: 1rem 4.5rem 1.4rem;
+  font-size: 0.8rem;
+  color: #c9c5be;
+}
+.lightbox__caption h2 {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #f2f0ec;
+}
+.lightbox__caption p {
+  margin: 0.2rem 0 0;
+  max-width: 48rem;
+}
+.lightbox__rights {
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: #a9a49c;
+  max-width: 22rem;
+  text-align: right;
+}
+.lightbox__btn {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(20, 20, 20, 0.5);
+  color: #f2f0ec;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.lightbox__btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+.lightbox__btn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+.lightbox__close {
+  top: 0.9rem;
+  right: 0.9rem;
+}
+.lightbox__prev,
+.lightbox__next {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.lightbox__prev {
+  left: 0.9rem;
+}
+.lightbox__next {
+  right: 0.9rem;
+}
+.lightbox :focus-visible {
+  outline-color: #f2c28d;
+}
+
+/* 11. Bandeau de consentement ---------------------------------------------- */
+.consent {
+  position: fixed;
+  z-index: 50;
+  left: 1rem;
+  bottom: 1rem;
+  max-width: 24rem;
+  padding: 1.1rem 1.2rem 1rem;
+  background: var(--plaque);
+  color: var(--plaque-ink);
+  box-shadow: 0 0.6rem 2rem -0.6rem rgba(0, 0, 0, 0.35);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  animation: consent-in 0.5s var(--ease);
+}
+.consent[hidden] {
+  display: none;
+}
+@keyframes consent-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+}
+.consent p {
+  margin: 0 0 0.9rem;
+}
+.consent__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+/* Refuser et Accepter : strictement le même style (pas de choix « poussé ») */
+.consent__actions .btn {
+  flex: 1 1 6rem;
+  min-height: 2.5rem;
+}
+.consent__more {
+  flex-basis: 100%;
+  font-size: 0.74rem;
+  color: var(--plaque-ink); /* même couleur que le texte du bandeau : lisible sur tous les thèmes */
+}
+
+/* 12. Mobile et préférences ------------------------------------------------ */
+@media (max-width: 52rem) {
+  .wordmark__suffix {
+    display: none;
+  }
+  .nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 0.2rem;
+    border: 0;
+    background: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+  }
+  .nav__list {
+    position: fixed;
+    inset: var(--header-h) 0.75rem auto auto;
+    flex-direction: column;
+    gap: 0;
+    min-width: 13rem;
+    padding: 0.4rem 0;
+    background: var(--plaque);
+    box-shadow: 0 0.8rem 2rem -0.8rem rgba(0, 0, 0, 0.4);
+  }
+  .nav__list a {
+    display: block;
+    padding: 0.75rem 1.2rem;
+  }
+  .nav__list:not(:popover-open) {
+    display: none;
+  }
+  .hall__works {
+    flex-direction: column;
+    align-items: center;
+  }
+  .doors {
+    flex-wrap: nowrap;
+    gap: 1rem;
+  }
+  .door__opening {
+    width: min(27vw, 9rem);
+  }
+  .door__label {
+    font-size: 1rem;
+    text-align: center;
+  }
+  .about {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'portrait' 'text' 'gear' 'figure';
+    justify-items: center;
+  }
+  .about > .prose {
+    padding-top: 0;
+  }
+  .about__gear {
+    justify-self: stretch;
+  }
+  .lightbox__stage {
+    padding: 3.5rem 0.5rem 0;
+  }
+  .lightbox__caption {
+    padding: 0.8rem 1rem 1.2rem;
+  }
+  .lightbox__rights {
+    text-align: left;
+  }
+  .lightbox__prev,
+  .lightbox__next {
+    top: auto;
+    bottom: -3.4rem;
+    transform: none;
+  }
+  .lightbox__prev {
+    left: auto;
+    right: 4.4rem;
+  }
+}
+
+/* Écrans tactiles / étroits : une œuvre par écran, aimantée au centre */
+@media (max-width: 52rem), (pointer: coarse) {
+  .wall {
+    scroll-snap-type: x mandatory;
+  }
+  .work,
+  .room-intro,
+  .room-exit {
+    scroll-snap-align: center;
+  }
+}
+@media (max-width: 40rem) {
+  :root {
+    --img-max-w: calc(100vw - 7rem);
+    --gap: 3rem;
+    --frame-w: 0.35rem;
+  }
+  .wall__track {
+    padding-inline: 1.25rem;
+  }
+  .wall-controls {
+    right: 50%;
+    transform: translate(50%, 50%);
+  }
+  .room-exit {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+/* Écrans peu hauts (paysage mobile) */
+@media (max-height: 34rem) {
+  :root {
+    --room-h: max(20rem, calc(100svh - var(--header-h)));
+  }
+  .cartel__text {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  @view-transition {
+    navigation: none;
+  }
+}
+
+@media print {
+  /* Pas d'impression des photos : la page imprime seulement les textes. */
+  .frame__img img,
+  .lightbox {
+    display: none !important;
+  }
+}

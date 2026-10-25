@@ -1,0 +1,57 @@
+---
+/**
+ * Hall d'entrée : nom, phrase d'accroche, 1 à 3 photos « vedette »
+ * (champ "vedette": true dans les JSON des salles) et une porte par salle.
+ */
+import Base from '../../layouts/Base.astro';
+import Work from '../../components/Work.astro';
+import Door from '../../components/Door.astro';
+import Floor from '../../components/Floor.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import { getFeatured, getRooms } from '../../lib/gallery';
+import { site } from '../../config/site';
+import { langs, path, useTranslations, type Lang } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langs.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const featured = await getFeatured(lang);
+const rooms = await getRooms(lang);
+// Cadre des photos vedette : celui de leur salle d'origine.
+const frameOf = (key: string) => rooms.find((r) => key.startsWith(`${r.id}/`))?.frame ?? 'noir';
+---
+
+<Base lang={lang} alternates={{ fr: path('fr'), en: path('en') }} bodyClass="is-hall">
+  <div class="hall">
+    <header class="hall__intro">
+      <h1>{site.author}</h1>
+      <p>{t('hall.tagline')}</p>
+    </header>
+
+    <section class="hall__works" aria-label={t('hall.featured')}>
+      {
+        featured.map((photo, i) => (
+          <Work photo={photo} lang={lang} frame={frameOf(photo.key)} index={i} eager={i === 0} vh={i === 0 ? 50 : 37} />
+        ))
+      }
+    </section>
+
+    <section class="hall__rooms" aria-labelledby="rooms-title">
+      <h2 id="rooms-title">{t('hall.rooms')}</h2>
+      <ul class="doors">
+        {
+          rooms.map((room, i) => (
+            <li>
+              <Door room={room} lang={lang} prefetch={i === 0} showCount />
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <div class="hall__floor"><Floor /></div>
+  </div>
+  <Lightbox lang={lang} />
+</Base>

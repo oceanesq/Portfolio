@@ -1,0 +1,52 @@
+---
+/**
+ * Bandeau de consentement à la mesure d'audience.
+ * Masqué par défaut ; consent.ts l'affiche si aucun choix n'est mémorisé.
+ * Aucun script de mesure n'est chargé avant un clic sur « Accepter ».
+ */
+import { site } from '../config/site';
+import { path, staticRoutes, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const a = site.analytics;
+---
+
+{
+  a.provider !== 'none' && (
+    <section
+      class="consent"
+      id="consent"
+      aria-labelledby="consent-title"
+      hidden
+      data-provider={a.provider}
+      data-src={a.scriptSrc}
+      data-domain={a.domain}
+      data-website-id={a.websiteId}
+    >
+      <h2 id="consent-title" class="sr-only">
+        {t('consent.label')}
+      </h2>
+      <p>{t('consent.text')}</p>
+      <div class="consent__actions">
+        <button class="btn" type="button" data-consent="denied">
+          {t('consent.refuse')}
+        </button>
+        <button class="btn" type="button" data-consent="granted">
+          {t('consent.accept')}
+        </button>
+        <a class="consent__more" href={path(lang, staticRoutes.privacy[lang])}>
+          {t('consent.more')}
+        </a>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  import { initConsent } from '../scripts/consent';
+  initConsent();
+</script>

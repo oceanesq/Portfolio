@@ -1,0 +1,46 @@
+---
+/**
+ * Pied de page : mention de copyright (année calculée au build), avertissement,
+ * liens légaux, contact et emplacement Instagram (activable dans src/config/site.ts).
+ */
+import { site, copyrightYears } from '../config/site';
+import { path, staticRoutes, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const analytics = site.analytics.provider !== 'none';
+---
+
+<footer class="site-footer">
+  <p>
+    <strong>© {site.author}, {copyrightYears()} — {t('footer.rights')}.</strong>
+    {t('footer.notice')}
+  </p>
+  <ul class="footer__links">
+    <li><a href={path(lang, staticRoutes.legal[lang])}>{t('footer.legal')}</a></li>
+    <li><a href={path(lang, staticRoutes.privacy[lang])}>{t('footer.privacy')}</a></li>
+    <li><a href={path(lang, staticRoutes.imageRights[lang])}>{t('footer.imageRights')}</a></li>
+    {
+      analytics && (
+        <li>
+          <button type="button" data-consent-open>
+            {t('footer.cookies')}
+          </button>
+        </li>
+      )
+    }
+    <li><a href={`mailto:${site.email}`}>{t('footer.contact')}</a></li>
+    {
+      site.social.instagram && (
+        <li>
+          <a href={site.social.instagram} rel="me noopener" target="_blank">
+            {t('footer.instagram')}
+          </a>
+        </li>
+      )
+    }
+  </ul>
+</footer>

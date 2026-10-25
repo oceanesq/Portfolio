@@ -1,0 +1,20 @@
+---
+/**
+ * Logo / wordmark. Provisoire : texte « Océane Saqué — Photographie ».
+ * Pour utiliser un logo : déposer logo.svg dans public/ et remplacer le contenu
+ * du lien par <img src="/logo.svg" alt="Océane Saqué — Photographie" width="…" height="…" />.
+ */
+import { site } from '../config/site';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const suffix = lang === 'fr' ? site.wordmarkSuffix : 'Photography';
+---
+
+<a class="wordmark" href={`/${lang}/`}>
+  <span class="wordmark__name">{site.wordmark}</span>
+  <span class="wordmark__suffix">{suffix}</span>
+</a>

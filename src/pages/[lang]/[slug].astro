@@ -1,0 +1,149 @@
+---
+/**
+ * Route dynamique : génère pour chaque langue
+ *  - une page par salle (src/content/rooms/*.json) ;
+ *  - les pages de texte (src/content/pages/<langue>/*.md) : à propos, légal, etc.
+ */
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Room from '../../components/Room.astro';
+import Work from '../../components/Work.astro';
+import GearIllustration from '../../components/GearIllustration.astro';
+import { getRooms, getImage, type Photo } from '../../lib/gallery';
+import { site } from '../../config/site';
+import { langs, path, staticRoutes, useTranslations, type Lang, type StaticKey } from '../../i18n/ui';
+
+/** Nom du fichier Markdown de chaque page fixe. */
+const pageFile: Record<StaticKey, string> = {
+  about: 'about',
+  legal: 'legal',
+  privacy: 'privacy',
+  imageRights: 'image-rights',
+};
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of langs) {
+    const rooms = await getRooms(lang);
+    rooms.forEach((room, index) =>
+      paths.push({ params: { lang, slug: room.slug }, props: { kind: 'room' as const, roomId: room.id, index } }),
+    );
+    for (const key of Object.keys(staticRoutes) as StaticKey[]) {
+      paths.push({ params: { lang, slug: staticRoutes[key][lang] }, props: { kind: 'page' as const, key } });
+    }
+  }
+  return paths;
+}
+
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const props = Astro.props as { kind: 'room'; roomId: string; index: number } | { kind: 'page'; key: StaticKey };
+
+// --- Salle ---------------------------------------------------------------------
+const rooms = await getRooms(lang);
+const room = props.kind === 'room' ? rooms[props.index] : null;
+const nextRoom = room ? rooms[(props.kind === 'room' ? props.index + 1 : 0) % rooms.length] : null;
+
+// --- Page de texte ---------------------------------------------------------------
+const entry = props.kind === 'page' ? await getEntry('pages', `${lang}/${pageFile[props.key]}`) : null;
+if (props.kind === 'page' && !entry) throw new Error(`Page manquante : src/content/pages/${lang}/${pageFile[props.key]}.md`);
+const { Content } = entry ? await render(entry) : { Content: null };
+
+const portrait: Photo = {
+  key: 'a-propos/portrait.jpg',
+  title: '',
+  text: '',
+  alt: t('about.portrait'),
+  place: '',
+  year: '',
+  image: getImage('a-propos/portrait.jpg'),
+};
+
+// Photo du matériel : sources/a-propos/materiel.jpg (sinon, une illustration est affichée).
+const gearPhoto: Photo = {
+  key: 'a-propos/materiel.jpg',
+  title: '',
+  text: '',
+  alt: t('about.gearPhotoAlt'),
+  place: '',
+  year: '',
+  image: getImage('a-propos/materiel.jpg'),
+};
+
+const alternates = room
+  ? { fr: path('fr', room.slugs.fr), en: path('en', room.slugs.en) }
+  : props.kind === 'page'
+    ? { fr: path('fr', staticRoutes[props.key].fr), en: path('en', staticRoutes[props.key].en) }
+    : { fr: path('fr'), en: path('en') };
+---
+
+{
+  room && nextRoom && (
+    <Base
+      lang={lang}
+      title={room.name}
+      description={room.intro || undefined}
+      alternates={alternates}
+      og={room.id}
+      theme={room.theme}
+      bodyClass="is-room"
+    >
+      <Room room={room} next={nextRoom} index={props.kind === 'room' ? props.index : 0} lang={lang} />
+    </Base>
+  )
+}
+
+{
+  entry && props.kind === 'page' && props.key === 'about' && (
+    <Base lang={lang} title={entry.data.title} description={entry.data.description} alternates={alternates}>
+      <div class="page">
+        <div class="about">
+          {/* Ligne 1 : portrait | texte + e-mail */}
+          <Work photo={portrait} lang={lang} frame="chene" index={0} eager zoomable={false} vh={62} missingLabel={t('about.portraitMissing')} />
+          <div class="prose">
+            <h1>{entry.data.title}</h1>
+            {Content && <Content />}
+            <p class="about__mail">
+              <a class="btn" href={`mailto:${site.email}`}>
+                {t('about.contact')} — {site.email}
+              </a>
+            </p>
+          </div>
+
+          {/* Ligne 2 : matériel (sous le portrait) | illustration ou photo du matériel */}
+          <section class="about__gear" aria-labelledby="gear-title">
+            <h2 id="gear-title">{t('about.gear')}</h2>
+            <dl>
+              <dt>{t('about.body')}</dt>
+              <dd>{site.gear.body}</dd>
+              <dt>{t('about.lens')}</dt>
+              <dd>{site.gear.lens}</dd>
+            </dl>
+          </section>
+          <figure class="about__figure">
+            {
+              gearPhoto.image ? (
+                <Work photo={gearPhoto} lang={lang} frame="noir" index={0} zoomable={false} vh={34} />
+              ) : (
+                <GearIllustration label={t('about.gearAlt')} />
+              )
+            }
+          </figure>
+        </div>
+      </div>
+    </Base>
+  )
+}
+
+{
+  entry && props.kind === 'page' && props.key !== 'about' && (
+    <Base lang={lang} title={entry.data.title} description={entry.data.description} alternates={alternates}>
+      <div class="page">
+        <article class="prose">
+          <h1>{entry.data.title}</h1>
+          {Content && <Content />}
+        </article>
+      </div>
+    </Base>
+  )
+}

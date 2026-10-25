@@ -1,0 +1,8 @@
+# Configuration Netlify (facultatif : les mêmes réglages peuvent être saisis dans l'interface).
+# Les en-têtes HTTP sont dans public/_headers, les redirections dans public/_redirects.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"

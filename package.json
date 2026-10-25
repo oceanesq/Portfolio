@@ -1,0 +1,33 @@
+{
+  "name": "portfolio-oceane-saque",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portfolio photographique d'Océane Saqué : une galerie d'art virtuelle en 2D.",
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "scripts": {
+    "images": "node scripts/build-images.mjs",
+    "images:force": "node scripts/build-images.mjs --force",
+    "demo": "node scripts/generate-demo.mjs",
+    "predev": "node scripts/build-images.mjs",
+    "dev": "astro dev",
+    "prebuild": "node scripts/build-images.mjs",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "astro": "^5.18.2",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "exiftool-vendored": "^35.21.0",
+    "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "@astrojs/language-server": "2.15.4"
+  }
+}

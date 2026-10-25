@@ -1,0 +1,62 @@
+---
+/**
+ * Une salle d'exposition : un long mur défilant horizontalement.
+ * Le nombre d'œuvres est libre : tout vient de src/content/rooms/<salle>.json.
+ */
+import Work from './Work.astro';
+import Floor from './Floor.astro';
+import Door from './Door.astro';
+import Lightbox from './Lightbox.astro';
+import type { Room } from '../lib/gallery';
+import { path, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  room: Room;
+  /** Salle suivante (la dernière boucle vers la première). */
+  next: Room;
+  index: number;
+  lang: Lang;
+}
+const { room, next, index, lang } = Astro.props;
+const t = useTranslations(lang);
+const n = room.photos.length;
+---
+
+<section class="room" aria-labelledby="room-title">
+  <Floor />
+  <div class="wall" tabindex="0" role="region" aria-label={t('room.wall')} data-wall>
+    <div class="wall__track">
+      <header class="room-intro">
+        <p class="eyebrow">{t('room.label')} {index + 1}</p>
+        <h1 id="room-title">{room.name}</h1>
+        {room.intro && <p>{room.intro}</p>}
+        <p class="room-intro__hint" aria-hidden="true">{t('room.hint')}</p>
+      </header>
+
+      {room.photos.map((photo, i) => <Work photo={photo} lang={lang} frame={room.frame} index={i} eager={i === 0} />)}
+
+      <nav class="room-exit" aria-label={t('room.nextRoom')}>
+        <a class="room-exit__back" href={path(lang)}>← {t('room.backHall')}</a>
+        <Door room={next} lang={lang} label={`${t('room.nextRoom')} · ${next.name}`} prefetch />
+      </nav>
+    </div>
+  </div>
+
+  <div class="wall-controls">
+    <button type="button" data-wall-prev aria-label={t('room.prev')}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </button>
+    <span data-wall-counter aria-hidden="true">01 / {String(n).padStart(2, '0')}</span>
+    <button type="button" data-wall-next aria-label={t('room.next')}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+    </button>
+    <span class="sr-only" aria-live="polite" data-wall-live data-template={t('room.position', { i: '{i}', n })}></span>
+  </div>
+</section>
+
+<Lightbox lang={lang} />
+
+<script>
+  import { initWalls } from '../scripts/wall';
+  initWalls();
+</script>

@@ -1,0 +1,91 @@
+{
+  "ordre": 3,
+  "slug_fr": "concerts-festivals",
+  "slug_en": "concerts-festivals",
+  "nom_fr": "Concerts & Festivals",
+  "nom_en": "Concerts & Festivals",
+  "intro_fr": "Les couleurs, l'énergie et la lumière de la scène.",
+  "intro_en": "The colours, the energy and the light of the stage.",
+  "ambiance": "sombre",
+  "cadre": "noir",
+  "photos": [
+    {
+      "fichier": "Odeza-2026.JPEG",
+      "titre_fr": "Odeza",
+      "titre_en": "Odeza",
+      "texte_fr": "Tremplin du rose festival 2026.",
+      "texte_en": "Pink festival tremplin 2026.",
+      "lieu": "Toulouse, France",
+      "annee": 2026,
+      "alt_fr": "Faisceaux de lumière au-dessus d'un musicien.",
+      "alt_en": "Light beams above a musician.",
+      "vedette": true
+    },
+    {
+      "fichier": "Maeva-2026.jpg",
+      "titre_fr": "Maeva",
+      "titre_en": "Maeva",
+      "texte_fr": "Rose festival 2026.",
+      "texte_en": "Pink festival 2026.",
+      "lieu": "Toulouse, France",
+      "annee": 2026,
+      "alt_fr": "Maeva chante sur scène, de nombreux faisceaux colorés rendent la scène très mélodique.",
+      "alt_en": "Maeva sings on stage, where numerous colorful beams of light make the scene feel very melodic."
+    },
+    {
+      "fichier": "BillieEilish-2025-1.JPEG",
+      "titre_fr": "Billie Eilish",
+      "titre_en": "Billie Eilish",
+      "texte_fr": "Concert - Hit me Hard and Soft Tour.",
+      "texte_en": "Concert - Hit me Hard and Soft Tour.",
+      "lieu": "Oslo, Norway",
+      "annee": 2025,
+      "alt_fr": "Billie eilish se tient debout surélevée dans les air, elle chante un rayon de lumière est projeté sur elle.",
+      "alt_en": "Billie Eilish stands elevated in the air, singing, as a beam of light is cast upon her."
+    },
+    {
+      "fichier": "BillieEilish-2025-2.jpg",
+      "titre_fr": "Billie Eilish & Finneas",
+      "titre_en": "Billie Eilish & Finneas",
+      "texte_fr": "Concert - Hit me Hard and Soft Tour.",
+      "texte_en": "Concert - Hit me Hard and Soft Tour.",
+      "lieu": "Oslo, Norway",
+      "annee": 2025,
+      "alt_fr": "Billie et Finneas chantent sur scène, billie est à genou. Du feu explose sur la scène. L'imagine dégage un fort dynamisme et une énergie puissante.",
+      "alt_en": "Billie and Finneas are singing on stage; Billie is on her knees. Fire erupts on the stage. The image conveys a strong sense of dynamism and powerful energy."
+    },
+    {
+      "fichier": "ImagineDragon-2025.jpg",
+      "titre_fr": "Dan Reynolds",
+      "titre_en": "Dan Reynolds",
+      "texte_fr": "Concert - Imagine Dragon.",
+      "texte_en": "Concert - Imagine Dragon.",
+      "lieu": "Paris, France",
+      "annee": 2025,
+      "alt_fr": "Le chanteur du groupe Imagine Dragon chante sur scène, tout autour de lui des confettis virevoltes, de la fumée est souflée de chaque coté de la scène.",
+      "alt_en": "The lead singer of the band Imagine Dragons sings on stage; confetti swirls all around him, and smoke is blown from either side of the stage."
+    },
+    {
+      "fichier": "OliviaRodrigo-2024.jpg",
+      "titre_fr": "Olivia Rodrigo",
+      "titre_en": "Olivia Rodrigo",
+      "texte_fr": "Concert - Olivia Rodrigo.",
+      "texte_en": "Concert - Olivia Rodrigo.",
+      "lieu": "Paris, France",
+      "annee": 2024,
+      "alt_fr": "Olivia Rodrigo est assise sur une lune surélevée au dessus du public. La lune brille en violet et est entourrée de nombreuses étoiles lumineuses de le même couleur.",
+      "alt_en": "Olivia Rodrigo is seated on a moon elevated above the audience. The moon glows in purple and is surrounded by numerous luminous stars of the same color."
+    },
+    {
+      "fichier": "Lorenzo-2024.jpg",
+      "titre_fr": "Lorenzo",
+      "titre_en": "Lorenzo",
+      "texte_fr": "Festival Rave Park.",
+      "texte_en": "Rave Park Festival.",
+      "lieu": "Rennes, France",
+      "annee": 2023,
+      "alt_fr": "Lorenzo est debout sur une tête de dragon, il chante dos au public, les bras écarté. Un rayon de lumière concentre toute l'attention sur lui.",
+      "alt_en": "Lorenzo stands atop a dragon’s head; he sings with his back to the audience, his arms spread wide. A beam of light focuses all attention upon him."
+    }
+  ]
+}

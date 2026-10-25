@@ -1,0 +1,69 @@
+{
+  "ordre": 1,
+  "slug_fr": "paysages",
+  "slug_en": "landscapes",
+  "nom_fr": "Paysages",
+  "nom_en": "Landscapes",
+  "intro_fr": "Sentiers, crêtes et lumières changeantes : des images rapportées de randonnées et de voyages.",
+  "intro_en": "Trails, ridges and shifting light: images brought back from hikes and travels.",
+  "ambiance": "nature",
+  "cadre": "chene",
+  "photos": [
+    {
+      "fichier": "A7_03396.jpg",
+      "titre_fr": "Balade à Ars-en-Ré",
+      "titre_en": "Walk in Ars-en-Ré",
+      "texte_fr": "Le village que j'ai préféré sur l'île de ré. Je l'ai trouvé très paisible.",
+      "texte_en": "The village I liked best on the Île de Ré. I found it very peaceful.",
+      "lieu": "Île de Ré, France",
+      "annee": 2026,
+      "alt_fr": "Photo d'une ruelle remplie de maisons dans les tons clairs. Avec une église en arrière plan. Le ciel est bleu et dégagé.",
+      "alt_en": "A photo of a narrow street lined with houses in light tones, with a church in the background. The sky is blue and clear.",
+      "vedette": true
+    },
+    {
+      "fichier": "A7_04222.JPEG",
+      "titre_fr": "Levé de soleil en montagne",
+      "titre_en": "Sunrise in the montains",
+      "texte_fr": "Lors d'un des trail de mon copain, j'ai observé ce levé de soleil. J'ai rarement vue des rayons aussi jolis.",
+      "texte_en": "During one of my boyfriend's trail runs, I witnessed this sunrise. I have rarely seen such beautiful rays.",
+      "lieu": "Andorra",
+      "annee": 2026,
+      "alt_fr": "Le soleil qui se lève au dessus des montagnes. On observe des rayons du soleil tout autour de lui. Le ciel est dégagé, avec un joli dégradé de couleurs. Quelques sapins sont au premier plan.",
+      "alt_en": "The sun rises above the mountains. Rays of sunlight can be seen all around it. The sky is clear, featuring a beautiful gradient of colors. A few fir trees appear in the foreground."
+    },
+    {
+      "fichier": "A7_07801.jpg",
+      "titre_fr": "Randonnée sur la Costa Brava",
+      "titre_en": "Hike along the Costa Brava",
+      "texte_fr": "Tout au long de la cote espagnole, les montagnes sont rocheuses au dessus de l'eau très claire. On s'y croirait au paradis",
+      "texte_en": "All along the Spanish coast, the mountains rise, rocky and steep, above the crystal-clear water. It feels just like paradise.",
+      "lieu": "Tossa de Mar, Spain",
+      "annee": 2026,
+      "alt_fr": "L'image montre la côte espagnole: la moitié gauche de la photo montre les montagnes rocheuses, l'autre moitié une eau paradisiaque. Quelques personnes font du kayak, d'autres du jet ski.",
+      "alt_en": "The image shows the Spanish coast: the left half of the photo features rocky mountains, while the other half shows idyllic, paradisiacal water. Some people are kayaking, others are on jet skis."
+    },
+    {
+      "fichier": "IMG_6909.JPEG",
+      "titre_fr": "Couché de soleil en laponie",
+      "titre_en": "Sunset in Lapland",
+      "texte_fr": "Après de nombreux kilomètres et un d+ intensif, j'ai eu le droit à un merveilleux spectacle. Un couché de soleil vraiment pas comme les autres, entre montagnes enneigées et nuages colorés.",
+      "texte_en": "After many kilometers and a significant amount of elevation gain, I was treated to a wonderful spectacle: a sunset truly unlike any other, set amidst snow-capped mountains and colorful clouds.",
+      "lieu": "Kvaløya, Norway",
+      "annee": 2025,
+      "alt_fr": "Couché de soleil derrière des nuages, au milieux de montagnes enneigées et de la mer de Norvège.",
+      "alt_en": "Sunset behind clouds, amidst snow-capped mountains and the Norwegian Sea."
+    },
+    {
+      "fichier": "IMG_5868.JPEG",
+      "titre_fr": "Aurores Boréales dans le ciel",
+      "titre_en": "Northern Lights in the sky",
+      "texte_fr": "Pendant mon erasmus à Tromsø, j'ai aidé une doctorante à mesurer la salinité de l'eau dans la mer, cette nuit là à été la plus belle que j'ai jamais vue. Par chance les aurores boréales étaient de sorties, extrèmements fortes, elles dansaient partout dans le ciel.",
+      "texte_en": "During my Erasmus exchange in Tromsø, I helped a PhD student measure the salinity of seawater; that night was the most beautiful I have ever seen. As luck would have it, the northern lights made an appearance—they were incredibly intense, dancing all across the sky.",
+      "lieu": "Samuelsberg, Norway",
+      "annee": 2025,
+      "alt_fr": "Au premier plan un lac, suivi de montagnes enneigés. Dans le ciel dansent des aurores boréales, puissantes et magiques, et se refletent sur l'eau. On observe derrières le vert des aurores boréales de nombreuses étoiles.",
+      "alt_en": "In the foreground lies a lake, followed by snow-capped mountains. Powerful and magical northern lights dance in the sky, reflecting off the water. Beyond the green glow of the aurora, numerous stars are visible."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+---
+/**
+ * Visionneuse plein écran (élément <dialog> natif : focus piégé, Échap pour fermer).
+ * Le contenu est rempli par src/scripts/lightbox.ts à partir des œuvres de la page.
+ */
+import { site, copyrightYears } from '../config/site';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<dialog class="lightbox" aria-label={t('lightbox.label')}>
+  <div class="lightbox__stage">
+    <figure class="lightbox__figure" aria-live="polite">
+      <!-- photo insérée ici -->
+    </figure>
+    <button class="lightbox__btn lightbox__prev" type="button" data-lb="prev" aria-label={t('lightbox.prev')}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+    </button>
+    <button class="lightbox__btn lightbox__next" type="button" data-lb="next" aria-label={t('lightbox.next')}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+    </button>
+    <button class="lightbox__btn lightbox__close" type="button" data-lb="close" aria-label={t('lightbox.close')}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </div>
+  <div class="lightbox__caption">
+    <div class="lightbox__text"></div>
+    <p class="lightbox__rights">
+      © {site.author}, {copyrightYears()} — {t('footer.rights')}. {t('footer.notice')}
+    </p>
+  </div>
+</dialog>
+
+<script>
+  import { initLightbox } from '../scripts/lightbox';
+  initLightbox();
+</script>

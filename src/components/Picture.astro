@@ -1,0 +1,34 @@
+---
+/**
+ * Image responsive : AVIF → WebP → JPEG, srcset multi-largeurs, dimensions explicites
+ * (pas de décalage de mise en page) et placeholder flou en arrière-plan.
+ */
+import { srcset, variant, type WebImage } from '../lib/gallery';
+
+interface Props {
+  image: WebImage;
+  alt: string;
+  /** Attribut sizes (largeur d'affichage estimée). */
+  sizes: string;
+  /** true pour la première image visible : chargement immédiat et prioritaire. */
+  eager?: boolean;
+}
+const { image, alt, sizes, eager = false } = Astro.props;
+---
+
+<picture>
+  <source type="image/avif" srcset={srcset(image, 'avif')} sizes={sizes} />
+  <source type="image/webp" srcset={srcset(image, 'webp')} sizes={sizes} />
+  <img
+    src={variant(image, 1024, 'jpg')}
+    srcset={srcset(image, 'jpg')}
+    sizes={sizes}
+    width={image.width}
+    height={image.height}
+    alt={alt}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding={eager ? 'auto' : 'async'}
+    fetchpriority={eager ? 'high' : undefined}
+    draggable="false"
+  />
+</picture>

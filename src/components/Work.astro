@@ -1,0 +1,74 @@
+---
+/**
+ * Une œuvre accrochée au mur : spot au plafond, cadre, passe-partout, photo et cartel.
+ * Cliquer sur la photo l'ouvre dans la visionneuse (voir Lightbox.astro).
+ */
+import Picture from './Picture.astro';
+import type { FrameStyle, Photo } from '../lib/gallery';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  photo: Photo;
+  lang: Lang;
+  frame: FrameStyle;
+  /** Index dans la salle (pour la visionneuse). */
+  index: number;
+  eager?: boolean;
+  /** Hauteur affichée approximative, en vh (sert au calcul de `sizes`). */
+  vh?: number;
+  /** Niveau de titre du cartel. */
+  heading?: 'h2' | 'h3';
+  /** false pour une image non cliquable (portrait de la page À propos). */
+  zoomable?: boolean;
+  /** Texte affiché dans un cadre vide (image pas encore fournie). */
+  missingLabel?: string;
+}
+const { photo, lang, frame, index, eager = false, vh = 57, heading = 'h2', zoomable = true, missingLabel } = Astro.props;
+const t = useTranslations(lang);
+const img = photo.image;
+const ratio = img ? img.width / img.height : 1.5;
+// Largeur affichée ≈ hauteur × ratio, plafonnée (cf. --img-h et --img-max-w dans global.css).
+const sizes = `(max-width: 40rem) calc(100vw - 7rem), min(${Math.round(vh * ratio)}vh, ${Math.round(832 * ratio)}px, 82vw)`;
+const Heading = heading;
+const meta = [photo.place, photo.year].filter(Boolean).join(' · ');
+const Tag = zoomable && img ? 'button' : 'div';
+---
+
+<article class="work" data-work={index}>
+  <div class="work__lit">
+    <div class="spot" aria-hidden="true"><span class="spot__cone"></span><span class="spot__glow"></span></div>
+    <Tag
+      class:list={['frame', `frame--${frame}`]}
+      type={Tag === 'button' ? 'button' : undefined}
+      data-open={Tag === 'button' ? index : undefined}
+      aria-label={Tag === 'button' ? t('room.open', { title: photo.title }) : undefined}
+      aria-haspopup={Tag === 'button' ? 'dialog' : undefined}
+    >
+      <span class="frame__mat">
+        {
+          img ? (
+            <span
+              class="frame__img"
+              style={`--r:${ratio.toFixed(4)};--c:${img.color};background-image:url("${img.lqip}")`}
+            >
+              <Picture image={img} alt={photo.alt} sizes={sizes} eager={eager} />
+            </span>
+          ) : (
+            <span class="frame__missing" role="img" aria-label={photo.alt}>
+              {missingLabel ?? t('room.missing')}
+            </span>
+          )
+        }
+      </span>
+    </Tag>
+  </div>
+  {
+    (photo.title || photo.text) && (
+      <div class="cartel">
+        <Heading class="cartel__title">{photo.title}</Heading>
+        {photo.text && <p class="cartel__text">{photo.text}</p>}
+        {meta && <p class="cartel__meta">{meta}</p>}
+      </div>
+    )
+  }
+</article>

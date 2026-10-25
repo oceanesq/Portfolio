@@ -1,0 +1,46 @@
+---
+/**
+ * En-tête : wordmark, liens vers les salles, « À propos » et sélecteur de langue.
+ * Sur mobile, la liste devient un menu (attribut HTML `popover` : aucun JavaScript).
+ */
+import Logo from './Logo.astro';
+import { getRooms } from '../lib/gallery';
+import { path, staticRoutes, useTranslations, otherLang, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** URL de la page courante (pour aria-current). */
+  current: string;
+  /** URL de la même page dans l'autre langue. */
+  alternate: string;
+}
+const { lang, current, alternate } = Astro.props;
+const t = useTranslations(lang);
+const rooms = await getRooms(lang);
+const links = [
+  ...rooms.map((r) => ({ href: path(lang, r.slug), label: r.name })),
+  { href: path(lang, staticRoutes.about[lang]), label: t('nav.about') },
+];
+const other = otherLang(lang);
+---
+
+<header class="site-header">
+  <Logo lang={lang} />
+  <nav class="nav" aria-label={t('nav.label')}>
+    <button class="nav__toggle" popovertarget="site-menu" type="button">{t('nav.menu')}</button>
+    <ul class="nav__list" id="site-menu" popover>
+      {
+        links.map((l) => (
+          <li>
+            <a href={l.href} aria-current={l.href === current ? 'page' : undefined}>
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="nav__lang" href={alternate} hreflang={other} lang={other} aria-label={t('lang.switch')}>
+      {t('lang.short')}
+    </a>
+  </nav>
+</header>

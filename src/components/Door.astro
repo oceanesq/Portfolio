@@ -1,0 +1,45 @@
+---
+/**
+ * Porte / passage vers une salle : on entrevoit le mur (clair ou sombre)
+ * et une miniature de la première œuvre.
+ */
+import type { Room } from '../lib/gallery';
+import { variant } from '../lib/gallery';
+import { path, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  room: Room;
+  lang: Lang;
+  /** Libellé affiché au-dessus de la porte (par défaut : le nom de la salle). */
+  label?: string;
+  /** Précharger la salle pendant l'inactivité du navigateur (voir prefetch.ts). */
+  prefetch?: boolean;
+  showCount?: boolean;
+}
+const { room, lang, label, prefetch = false, showCount = false } = Astro.props;
+const t = useTranslations(lang);
+const first = room.photos.find((p) => p.image)?.image ?? null;
+const thumb = first ? variant(first, 320, 'webp') : null;
+const firstFull = first ? variant(first, 1024, 'avif') : undefined;
+---
+
+<a
+  class:list={['door', `door--${room.theme}`, `door--${room.frame}`]}
+  href={path(lang, room.slug)}
+  data-prefetch={prefetch ? '' : undefined}
+  data-prefetch-img={prefetch ? firstFull : undefined}
+>
+  <span class="door__label">{label ?? room.name}</span>
+  {showCount && <span class="door__count">{t('hall.count', { n: room.photos.length })}</span>}
+  <span class="door__opening" aria-hidden="true">
+    <span class="door__room">
+      {
+        thumb && (
+          <span class="door__mini">
+            <img src={thumb} alt="" width="320" height="320" loading="lazy" decoding="async" draggable="false" />
+          </span>
+        )
+      }
+    </span>
+  </span>
+</a>

@@ -1,0 +1,56 @@
+---
+/**
+ * Illustration vectorielle (vue de profil, style « planche technique ») du
+ * Sony A7 IV équipé du Sigma 28-70 mm f/2.8 DG DN | Contemporary.
+ * Dessin original, sans logo de marque, ~3 ko et aucune requête réseau.
+ * Remplacée automatiquement par une vraie photo si sources/a-propos/materiel.jpg existe.
+ */
+import { site } from '../config/site';
+
+interface Props {
+  /** Texte alternatif lu par les lecteurs d'écran. */
+  label: string;
+}
+const { label } = Astro.props;
+// Rainures des bagues de zoom et de mise au point.
+const zoomRidges = Array.from({ length: 16 }, (_, i) => 287 + i * 4);
+const focusRidges = Array.from({ length: 11 }, (_, i) => 371 + i * 3.2);
+---
+
+<svg class="gear-art" viewBox="0 0 480 270" role="img" aria-labelledby="gear-art-title">
+  <title id="gear-art-title">{label}</title>
+
+  <!-- Ombre au sol -->
+  <ellipse class="gear-art__shadow" cx="245" cy="214" rx="205" ry="7"></ellipse>
+
+  <!-- Boîtier -->
+  <rect class="gear-art__eyecup" x="86" y="62" width="18" height="26" rx="5"></rect>
+  <path class="gear-art__body" d="M100 92 L108 63 Q110 56 117 56 L190 56 Q197 56 199 63 L207 92 Z"></path>
+  <rect class="gear-art__shoe" x="134" y="50" width="40" height="6" rx="1.5"></rect>
+  <rect class="gear-art__body" x="58" y="90" width="196" height="120" rx="11"></rect>
+  <rect class="gear-art__detail" x="208" y="82" width="34" height="9" rx="3"></rect>
+  <rect class="gear-art__detail" x="219" y="76" width="14" height="6" rx="3"></rect>
+  <rect class="gear-art__detail" x="58" y="104" width="7" height="94" rx="2"></rect>
+  <circle class="gear-art__detail" cx="243" cy="106" r="4"></circle>
+  <path class="gear-art__edge" d="M70 92 H246"></path>
+  <path class="gear-art__edge" d="M112 60 H195"></path>
+  <text class="gear-art__mark" x="76" y="198">α7 IV</text>
+
+  <!-- Monture et objectif -->
+  <rect class="gear-art__mount" x="252" y="102" width="12" height="98" rx="2"></rect>
+  <rect class="gear-art__lens" x="263" y="112" width="160" height="78" rx="4"></rect>
+  <rect class="gear-art__ring" x="284" y="109" width="66" height="84" rx="4"></rect>
+  {zoomRidges.map((x) => <path class="gear-art__ridge" d={`M${x} 113 V189`}></path>)}
+  <rect class="gear-art__ring" x="368" y="110" width="38" height="82" rx="4"></rect>
+  {focusRidges.map((x) => <path class="gear-art__ridge" d={`M${x} 114 V188`}></path>)}
+  <rect class="gear-art__lip" x="421" y="106" width="14" height="90" rx="3"></rect>
+  <circle class="gear-art__badge" cx="274" cy="151" r="5.5"></circle>
+  <text class="gear-art__badge-text" x="274" y="153.6">C</text>
+  <path class="gear-art__edge" d="M266 114 H420"></path>
+
+  <!-- Légendes -->
+  <path class="gear-art__leader" d="M150 218 V234"></path>
+  <text class="gear-art__label" x="150" y="252">{site.gear.body}</text>
+  <path class="gear-art__leader" d="M350 202 V234"></path>
+  <text class="gear-art__label" x="350" y="252">Sigma 28-70 mm f/2.8</text>
+</svg>

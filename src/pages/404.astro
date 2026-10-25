@@ -1,0 +1,33 @@
+---
+/**
+ * Page 404 : un cadre vide accroché au mur, avec son cartel.
+ * Bilingue (une seule page 404 est servie par l'hébergeur).
+ */
+import Base from '../layouts/Base.astro';
+import { path, useTranslations } from '../i18n/ui';
+
+const fr = useTranslations('fr');
+const en = useTranslations('en');
+---
+
+<Base lang="fr" title={fr('404.title')} alternates={{ fr: '/fr/', en: '/en/' }} noindex>
+  <div class="page notfound">
+    <article class="work">
+      <div class="work__lit">
+        <div class="spot" aria-hidden="true"><span class="spot__cone"></span><span class="spot__glow"></span></div>
+        <div class="frame">
+          <span class="frame__mat"><span class="frame__missing" aria-hidden="true">404</span></span>
+        </div>
+      </div>
+      <div class="cartel">
+        <h1 class="cartel__title">{fr('404.title')}</h1>
+        <p>{fr('404.text')}</p>
+        <p class="cartel__meta"><a href={path('fr')}>{fr('404.back')}</a></p>
+        <hr />
+        <p class="cartel__title" lang="en">{en('404.title')}</p>
+        <p lang="en">{en('404.text')}</p>
+        <p class="cartel__meta" lang="en"><a href={path('en')}>{en('404.back')}</a></p>
+      </div>
+    </article>
+  </div>
+</Base>
