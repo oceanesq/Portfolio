@@ -30,11 +30,12 @@ export const site = {
    *  - scriptSrc : URL du script (Plausible cloud, ou votre instance auto-hébergée)
    *  - domain    : (Plausible) nom de domaine déclaré dans Plausible
    *  - websiteId : (Umami) identifiant du site
-   * [À COMPLÉTER] : tant que domain / websiteId est vide, aucun script n'est chargé,
-   * même après acceptation (le bandeau reste visible pour validation du rendu).
+   * Actuellement désactivée ('none') : pas de bandeau, pas de lien dans le pied de page.
+   * Pour l'activer plus tard : voir la section « Mesure d'audience » du README
+   * (penser aussi à la CSP de public/_headers et à la politique de confidentialité).
    */
   analytics: {
-    provider: 'plausible' as 'plausible' | 'umami' | 'none',
+    provider: 'none' as 'plausible' | 'umami' | 'none',
     scriptSrc: 'https://plausible.io/js/script.js',
     domain: '',
     websiteId: '',

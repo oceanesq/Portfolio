@@ -164,7 +164,8 @@ Puis `npm run images:force`.
   - **Plausible** : `provider: 'plausible'`, `domain: 'ton-domaine.fr'` ;
   - **Umami** : `provider: 'umami'`, `scriptSrc` (ton instance) et `websiteId`. Remplacer aussi `https://plausible.io` dans `public/_headers` (CSP) ;
   - **aucune mesure** : `provider: 'none'` (le bandeau disparaît).
-- *Choix par défaut* : Plausible, avec un domaine vide. Le bandeau s'affiche pour valider le rendu, mais rien n'est chargé tant que `domain` n'est pas renseigné.
+- **État actuel : désactivée** (`provider: 'none'`). Pas de bandeau ni de lien « Gérer la mesure d'audience », et la CSP de `public/_headers` n'autorise aucun domaine externe.
+- Pour l'activer plus tard : renseigner `provider` et `domain`/`websiteId`, ajouter le domaine du script à `script-src` et `connect-src` dans `public/_headers`, et ajouter une section « Mesure d'audience » dans `src/content/pages/{fr,en}/privacy.md` (outil, finalité, consentement, durée de conservation).
 
 ---
 
@@ -226,9 +227,10 @@ Les deux lisent automatiquement :
 - [ ] Déposer le portrait : `sources/a-propos/portrait.jpg`
 - [ ] Relire et ajuster les textes « À propos » FR/EN
 - [ ] Choisir un nom de domaine → `src/config/site-url.mjs`
-- [ ] Choisir l'hébergeur → compléter les **mentions légales** FR/EN (nom, adresse, contact de l'hébergeur)
-- [ ] Compléter la **politique de confidentialité** (outil de mesure, durées, date) ; rechercher `[À COMPLÉTER]` / `[TO COMPLETE]` dans `src/content/pages/`
-- [ ] Mesure d'audience : renseigner `domain` (Plausible) ou `websiteId` (Umami), ou `provider: 'none'`
+- [x] Hébergeur (Netlify) renseigné dans les **mentions légales** FR/EN
+- [x] **Politique de confidentialité** complétée (sans mesure d'audience, hébergeur Netlify), datée du 25 octobre 2026
+- [x] Mesure d'audience : désactivée (`provider: 'none'`)
+- [ ] Mettre à jour la date « Dernière mise à jour » des pages légales à chaque modification
 - [ ] Optionnel : logo (`Logo.astro`), lien Instagram (`site.ts`), favicon définitif (`public/favicon.svg`, puis supprimer `public/apple-touch-icon.png` pour le régénérer)
 - [ ] `npm run build` puis `npm run preview` : vérifier chaque salle, la visionneuse, le mobile
 - [ ] Après déploiement : tester les en-têtes sur [securityheaders.com](https://securityheaders.com) et la performance sur [PageSpeed Insights](https://pagespeed.web.dev)

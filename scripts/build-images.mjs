@@ -220,7 +220,7 @@ async function makeLqip(img, w, h) {
 
 async function processJob(job, previous) {
   const srcBuf = await readFile(job.source);
-  const id = hashOf(PIPELINE_VERSION, srcBuf, config.widths, config.maxLongSide, config.formats, job.watermark && config.watermark, config.metadata, job.meta);
+  const id = hashOf(PIPELINE_VERSION, srcBuf, config.widths, config.maxLongSide, config.formats, job.watermark && config.watermark, config.metadata, job.meta, SITE_URL); // SITE_URL : lien « WebStatement » des métadonnées
 
   const outDir = r(config.outputDir);
   const expected = (entry) => entry.widths.flatMap((w) => ['avif', 'webp', 'jpg'].map((e) => path.join(outDir, `${entry.id}-${w}.${e}`)));

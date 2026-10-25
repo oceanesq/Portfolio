@@ -90,7 +90,8 @@ const other = otherLang(lang);
       <slot />
     </main>
     <Footer lang={lang} />
-    <ConsentBanner lang={lang} />
+    {/* Bandeau (et son script) seulement si une mesure d'audience est configurée */}
+    {site.analytics.provider !== 'none' && <ConsentBanner lang={lang} />}
     <script>
       import '../scripts/protect';
       import '../scripts/prefetch';

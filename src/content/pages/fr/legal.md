@@ -3,14 +3,13 @@ title: "Mentions légales"
 description: "Mentions légales du site d'Océane Saqué, propriété intellectuelle, réserve de fouille de textes et de données."
 ---
 
-<!-- MODÈLE À COMPLÉTER : les passages surlignés [À COMPLÉTER] doivent être renseignés avant la mise en ligne. -->
-
 ## Éditrice du site
 
 Ce site est édité par **Océane Saqué**, particulier, à titre personnel et non professionnel.
 
 - Contact : [oceane.saque@gmail.com](mailto:oceane.saque@gmail.com)
-- Adresse : <mark>[À COMPLÉTER — ou supprimer cette ligne]</mark> Conformément à l'article 6, III, 2 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), une personne physique éditant un site à titre non professionnel peut ne pas publier son adresse, à condition de communiquer ses coordonnées complètes à l'hébergeur.
+
+Conformément à l'article 6, III, 2 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), l'éditrice, personne physique éditant ce site à titre non professionnel, ne publie pas son adresse personnelle : ses coordonnées complètes ont été communiquées à l'hébergeur.
 
 **Directrice de la publication** : Océane Saqué.
 
@@ -18,10 +17,10 @@ Ce site est édité par **Océane Saqué**, particulier, à titre personnel et n
 
 Le site est hébergé par :
 
-- Nom ou raison sociale : <mark>[À COMPLÉTER une fois l'hébergeur choisi]</mark>
-- Adresse : <mark>[À COMPLÉTER]</mark>
-- Téléphone ou moyen de contact : <mark>[À COMPLÉTER]</mark>
-- Site : <mark>[À COMPLÉTER]</mark>
+- **Netlify, Inc.**
+- Adresse : 101 2nd Street, San Francisco, CA 94105, États-Unis
+- Contact : [support@netlify.com](mailto:support@netlify.com) (Netlify ne publie pas de numéro de téléphone)
+- Site : [www.netlify.com](https://www.netlify.com)
 
 ## Propriété intellectuelle
 
@@ -52,3 +51,5 @@ Voir la [politique de confidentialité](/fr/confidentialite/).
 ## Droit applicable
 
 Le présent site et ces mentions sont soumis au droit français.
+
+*Dernière mise à jour : 25 octobre 2026.*

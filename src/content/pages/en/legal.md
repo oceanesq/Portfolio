@@ -3,14 +3,13 @@ title: "Legal notice"
 description: "Legal notice for Océane Saqué's website, copyright, and text and data mining reservation."
 ---
 
-<!-- TEMPLATE TO COMPLETE: highlighted [TO COMPLETE] items must be filled in before going live. -->
-
 ## Publisher
 
 This website is published by **Océane Saqué**, a private individual, on a personal and non-commercial basis.
 
 - Contact: [oceane.saque@gmail.com](mailto:oceane.saque@gmail.com)
-- Address: <mark>[TO COMPLETE — or remove this line]</mark> Under article 6, III, 2 of the French law of 21 June 2004 (LCEN), an individual publishing a website on a non-professional basis may choose not to publish their address, provided their full details have been given to the hosting provider.
+
+Under article 6, III, 2 of the French law of 21 June 2004 on confidence in the digital economy (LCEN), the publisher, an individual running this website on a non-professional basis, does not publish her personal address: her full details have been provided to the hosting provider.
 
 **Publication director**: Océane Saqué.
 
@@ -18,10 +17,10 @@ This website is published by **Océane Saqué**, a private individual, on a pers
 
 This website is hosted by:
 
-- Company name: <mark>[TO COMPLETE once the host is chosen]</mark>
-- Address: <mark>[TO COMPLETE]</mark>
-- Phone or contact: <mark>[TO COMPLETE]</mark>
-- Website: <mark>[TO COMPLETE]</mark>
+- **Netlify, Inc.**
+- Address: 101 2nd Street, San Francisco, CA 94105, United States
+- Contact: [support@netlify.com](mailto:support@netlify.com) (Netlify does not publish a phone number)
+- Website: [www.netlify.com](https://www.netlify.com)
 
 ## Copyright
 
@@ -52,3 +51,5 @@ See the [privacy policy](/en/privacy/).
 ## Governing law
 
 This website and this notice are governed by French law. In case of discrepancy, the French version prevails.
+
+*Last updated: 25 October 2026.*
