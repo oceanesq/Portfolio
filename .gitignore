@@ -1,8 +1,10 @@
 # --- Originaux : ne JAMAIS publier -----------------------------------------
 # Exports Lightroom pleine résolution (entrée du pipeline d'images)
-sources/
-# Dossier de photos d'origine présent à la racine du projet
-assets/
+/sources/
+# Dossier de photos d'origine présent à la racine du projet.
+# Le « / » initial est indispensable : sans lui, src/assets/ (polices, motifs)
+# serait aussi ignoré et le build échouerait sur l'hébergeur.
+/assets/
 # Fichiers bruts éventuels, où qu'ils soient
 *.ARW
 *.arw
